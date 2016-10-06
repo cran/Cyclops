@@ -455,13 +455,16 @@ template <class BaseModel,typename WeightType>
 void ModelSpecifics<BaseModel,WeightType>::computeFixedTermsInLogLikelihood(bool useCrossValidation) {
 	if(BaseModel::likelihoodHasFixedTerms) {
 		logLikelihoodFixedTerm = 0.0;
+	    bool hasOffs = hOffs.size() > 0;
 		if(useCrossValidation) {
 			for(size_t i = 0; i < K; i++) {
-				logLikelihoodFixedTerm += BaseModel::logLikeFixedTermsContrib(hY[i], hOffs[i], hOffs[i]) * hKWeight[i];
+			    auto offs = hasOffs ? hOffs[i] : 0.0;
+				logLikelihoodFixedTerm += BaseModel::logLikeFixedTermsContrib(hY[i], offs, offs) * hKWeight[i];
 			}
 		} else {
 			for(size_t i = 0; i < K; i++) {
-				logLikelihoodFixedTerm += BaseModel::logLikeFixedTermsContrib(hY[i], hOffs[i], hOffs[i]);
+			    auto offs = hasOffs ? hOffs[i] : 0.0;
+				logLikelihoodFixedTerm += BaseModel::logLikeFixedTermsContrib(hY[i], offs, offs); // TODO SEGV in Poisson model
 			}
 		}
 	}
@@ -572,7 +575,6 @@ double ModelSpecifics<BaseModel,WeightType>::getPredictiveLogLikelihood(real* we
 
 // 		std::vector<int> savedPid = hPidInternal; // make copy
 // 		std::vector<int> saveAccReset = accReset; // make copy
-
 		setPidForAccumulation(weights);
 		computeRemainingStatistics(true); // compute accDenomPid
 
@@ -723,7 +725,7 @@ void ModelSpecifics<BaseModel,WeightType>::computeGradientAndHessianImpl(int ind
 		// x. Segmented scan of numerators
 		// x. Transformation/reduction of [begin,end)
 
-		IteratorType it(*(sparseIndices)[index], N);
+		IteratorType it(sparseIndices[index].get(), N);
 
 
 		real accNumerPid  = static_cast<real>(0);
@@ -770,7 +772,10 @@ void ModelSpecifics<BaseModel,WeightType>::computeGradientAndHessianImpl(int ind
 			BaseModel::incrementGradientAndHessian(it,
 					w, // Signature-only, for iterator-type specialization
 					&gradient, &hessian, accNumerPid, accNumerPid2,
-					accDenomPid[i], hNWeight[i], it.value(), hXBeta[i], hY[i]);
+					accDenomPid[i], hNWeight[i],
+                             0.0,
+                             //it.value(),
+                             hXBeta[i], hY[i]);
 					// When function is in-lined, compiler will only use necessary arguments
 #ifdef DEBUG_COX2
 			using namespace std;
@@ -873,7 +878,7 @@ void ModelSpecifics<BaseModel,WeightType>::computeGradientAndHessianImpl(int ind
         auto rangeXNumerator = helper::dependent::getRangeX(modelData, index, offsExpXBeta,
                 typename IteratorType::tag());
 
-        auto rangeGradient = helper::dependent::getRangeGradient(*sparseIndices[index], N,
+        auto rangeGradient = helper::dependent::getRangeGradient(sparseIndices[index].get(), N, // runtime error: reference binding to null pointer of type 'struct vector'
                 denomPid, hNWeight,
                 typename IteratorType::tag());
 
@@ -1359,7 +1364,7 @@ inline void ModelSpecifics<BaseModel,WeightType>::updateXBetaImpl(real realDelta
  		auto rangeKey = helper::dependent::getRangeKey(modelData, index, hPid,
 		        typename IteratorType::tag());
 
-		auto rangeDenominator = helper::dependent::getRangeDenominator(*sparseIndices[index], N,
+		auto rangeDenominator = helper::dependent::getRangeDenominator(sparseIndices[index].get(), N,
 		        denomPid, typename IteratorType::tag());
 
         auto kernel = TestUpdateXBetaKernelDependent<BaseModel,IteratorType,real>(realDelta);
@@ -1499,8 +1504,8 @@ void ModelSpecifics<BaseModel,WeightType>::computeAccumlatedDenominator(bool use
 
 	if (BaseModel::likelihoodHasDenominator && //The two switches should ideally be separated
 		BaseModel::cumulativeGradientAndHessian) { // Compile-time switch
-			if (accDenomPid.size() != N) {
-				accDenomPid.resize(N, static_cast<real>(0));
+			if (accDenomPid.size() != (N + 1)) {
+				accDenomPid.resize(N + 1, static_cast<real>(0));
 			}
 // 			if (accNumerPid.size() != N) {
 // 				accNumerPid.resize(N, static_cast<real>(0));

@@ -27,14 +27,13 @@ PKG_LIBS = `$(R_HOME)/bin/Rscript -e "Rcpp:::LdFlags()"`
 CXX_STD = CXX11
 
 PKG_CPPFLAGS = -I. -Icyclops -DR_BUILD -DDOUBLE_PRECISION
-PKG_CXXFLAGS = -s
+PKG_CXXFLAGS = -s -g1
 
 OBJECTS.cyclops = \
     cyclops/CcdInterface.o \
     cyclops/CompressedDataMatrix.o \
     cyclops/CyclicCoordinateDescent.o \
     cyclops/ModelData.o \
-    cyclops/SqlModelData.o \
     cyclops/Timer.o
 
 OBJECTS.drivers = \
