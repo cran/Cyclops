@@ -57,23 +57,12 @@ public:
 
 	typedef Eigen::Matrix<double, Eigen::Dynamic, Eigen::Dynamic> Matrix;
 
-// 	CyclicCoordinateDescent(void);
-//
-// 	CyclicCoordinateDescent(
-// 			const char* fileNameX,
-// 			const char* fileNameEta,
-// 			const char* fileNameOffs,
-// 			const char* fileNameNEvents,
-// 			const char* fileNamePid
-// 		);
-//
 	CyclicCoordinateDescent(
 			const ModelData& modelData,
 			AbstractModelSpecifics& specifics,
 			priors::JointPriorPtr prior,
 			loggers::ProgressLoggerPtr logger,
 			loggers::ErrorHandlerPtr error
-//			ModelSpecifics<DefaultModel>& specifics
 		);
 
 	CyclicCoordinateDescent(
@@ -151,7 +140,11 @@ public:
 
 	std::vector<double> getHyperprior(void) const;
 
-	string getPriorInfo();
+	string getPriorInfo() const;
+
+	string getCrossValidationInfo() const;
+
+	void setCrossValidationInfo(string info);
 
 	string getConditionId() const {
 		return conditionId;
@@ -192,8 +185,6 @@ protected:
 	AbstractModelSpecifics& modelSpecifics;
 	priors::JointPriorPtr jointPrior;
 	const ModelData& hXI;
-//	ModelSpecifics<DefaultModel>& modelSpecifics;
-//private:
 
 	CyclicCoordinateDescent(const CyclicCoordinateDescent& copy);
 
@@ -208,8 +199,6 @@ protected:
 	void computeFixedTermsInLogLikelihood(void);
 
 	void computeFixedTermsInGradientAndHessian(void);
-
-//	void computeXjY(void);
 
 	void findMode(int maxIterations, int convergenceType, double epsilon);
 
@@ -261,17 +250,6 @@ protected:
 			int index,
 						double *gradient,
 						double *hessian);
-
-// 	template <class IteratorType>
-// 	inline real computeHessian(
-// 			real numer, real numer2, real denom,
-// 			real g, real t);
-//
-// 	template <class IteratorType>
-// 	inline void incrementGradientAndHessian(
-// 			real* gradient, real* hessian,
-// 			real numer, real numer2, real denom, int nEvents);
-
 
 	template <class IteratorType>
 	void axpy(double* y, const double alpha, const int index);
@@ -328,26 +306,18 @@ protected:
 
 	// Local variables
 
-	//InputReader* hReader;
-
 	ofstream outLog;
 	bool hasLog;
 
-// 	CompressedDataMatrix* hXI; // K-by-J-indicator matrix
-
  	const double* hY; // K-vector
-// 	int* hNEvents; // K-vector
-//	int* hPid; // N-vector
 	const int* hPid;
 	int** hXColumnRowIndicators; // J-vector
 
-	//typedef std::vector<real> RealVector;
 	typedef std::vector<double> DoubleVector;
 	DoubleVector hBeta;
 
 	DoubleVector& hXBeta; // TODO Delegate to ModelSpecifics
 	DoubleVector& hXBetaSave; // Delegate
-//	double* hDelta;
 	DoubleVector hDelta;
 	std::vector<bool> fixBeta;
 
@@ -361,8 +331,6 @@ protected:
 	int priorType;
 
 	double initialBound;
-//	double sigma2Beta;
-//	double lambda;
 
 	bool sufficientStatisticsKnown;
 	bool xBetaKnown;
@@ -381,10 +349,6 @@ protected:
 	UpdateReturnFlags lastReturnFlag;
 	int lastIterationCount;
 
-//#ifdef SPARSE_PRODUCT
-//	std::vector<std::vector<int>* > sparseIndices;
-//#endif
-
 	Matrix hessianMatrix;
 	Matrix varianceMatrix;
 
@@ -395,6 +359,8 @@ protected:
 	typedef std::deque<SetBetaEntry> SetBetaContainer;
 
 	SetBetaContainer setBetaList;
+
+	string crossValidationInfo;
 
 	loggers::ProgressLoggerPtr logger;
 	loggers::ErrorHandlerPtr error;

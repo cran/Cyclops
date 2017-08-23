@@ -193,6 +193,23 @@ int cyclopsGetNumberOfColumns(Environment object) {
 	return static_cast<int>(count);
 }
 
+//' @title Print Cyclops data matrix to file
+//'
+//' @description
+//' \code{printMatrixMarket} prints the data matrix to a file
+//'
+//' @param object      A Cyclops data object
+//' @param file        Filename
+//'
+//' @export
+// [[Rcpp::export(printMatrixMarket)]]
+void cyclopsPrintMatrixMarket(Environment object, const std::string& file) {
+    XPtr<bsccs::ModelData> data = parseEnvironmentForPtr(object);
+    std::ofstream stream(file);
+
+    data->printMatrixMarketFormat(stream);
+}
+
 //' @title Get total number of rows
 //'
 //' @description
@@ -260,7 +277,7 @@ std::vector<double> cyclopsUnivariableCorrelation(Environment x,
         }
     }
 
-    return std::move(result);
+    return result;
 }
 
 // [[Rcpp::export(".cyclopsSumByGroup")]]
@@ -380,6 +397,18 @@ double cyclopsGetMeanOffset(Environment x) {
     return (data->getHasOffsetCovariate()) ?
         data->sum(-1, 1) / data->getNumberOfRows() :
         0.0;
+}
+
+// [[Rcpp::export("getYVector")]]
+std::vector<double> cyclopsGetYVector(Environment object) {
+    XPtr<bsccs::ModelData> data = parseEnvironmentForPtr(object);
+    return (data->getYVectorRef());
+}
+
+// [[Rcpp::export("getTimeVector")]]
+std::vector<double> cyclopsGetTimeVector(Environment object) {
+    XPtr<bsccs::ModelData> data = parseEnvironmentForPtr(object);
+    return (data->getTimeVectorRef());
 }
 
 // [[Rcpp::export(".cyclopsFinalizeData")]]
