@@ -2,7 +2,7 @@ Package: Cyclops
 Type: Package
 Title: Cyclic Coordinate Descent for Logistic, Poisson and Survival
         Analysis
-Version: 1.3.0
+Version: 1.3.2
 Author: Marc A. Suchard [aut, cre],
     Martijn J. Schuemie [aut],
     Trevor R. Shaddox [aut]
@@ -23,6 +23,6 @@ LinkingTo: Rcpp, BH (>= 1.51.0), RcppEigen (>= 0.3.2), RcppParallel
 Suggests: testthat, gnm, ggplot2
 RoxygenNote: 6.0.1
 NeedsCompilation: yes
-Packaged: 2017-08-23 21:53:37 UTC; msuchard
+Packaged: 2018-05-03 23:11:46 UTC; msuchard
 Repository: CRAN
-Date/Publication: 2017-08-23 22:26:38 UTC
+Date/Publication: 2018-05-04 03:12:14 UTC

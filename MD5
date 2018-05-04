@@ -1,11 +1,11 @@
-0776314ade71e52530a927a9622786ec *DESCRIPTION
+a54c0cfc875914f87bd39f85f9e785f5 *DESCRIPTION
 f62c5b92b44150690faecde8b254d29a *NAMESPACE
-810bc44fe33716717f921164ce1df8d9 *NEWS
+9874a0a30241c91fb2e790570c65de40 *NEWS
 e154bfc0f50fea35c2e225c1a940e1d3 *R/CrossValidationControl.R
 5f7a88c777ac1e47d7680d4e7f428e63 *R/DataManagement.R
 45e49125b00bc49afd7718abe2a6acaa *R/ExampleData.R
 df3a46173a19c793f16e278d695ae39e *R/LegacyDataConversion.R
-043e39100518df0807cf9e6fa6162a58 *R/ModelFit.R
+ccbe08611f79f9325d39c6f79bb64d48 *R/ModelFit.R
 60ca5cb8e92f940d36463587bb35a127 *R/Multitype.R
 8d0b05f421481e98c80b165ce3170223 *R/NewDataConversion.R
 a777bc2f6acf26d8250ba3479df884d4 *R/PackageMaintenance.R
@@ -15,7 +15,7 @@ da54f0fc9f87326a50def0c573f36707 *R/RcppExports.R
 f6a6d1d23eea398e450c63fd785dcfba *R/Simulation.R
 2013626eaf710f3329b22c837e5eda55 *R/Survfit.R
 037bee8255ffc22cedbc3a8a49e7cef5 *R/cyclops.R
-edf60039bf27f8ef0dcd4f7da56efda3 *README.md
+89958c752d97b54eb7b4b8fff9285c09 *README.md
 97359edf34b53a80b1b890aee97bb88a *data/oxford.rda
 486ad7931a4cb183f491056c91677af9 *inst/CITATION
 f1caf535980b19c472e2969be5c7e565 *inst/NEWS.Rd
@@ -90,7 +90,7 @@ a6fef13d330c4b2f9052f35066ccb365 *src/cyclops/CcdInterface.h
 09cd1dea64564ab5131f510850393f66 *src/cyclops/CompressedDataMatrix.cpp
 34ad4331c09fbfeb523bbc42c6e129df *src/cyclops/CompressedDataMatrix.h
 ef16ffd39d6ec75142fd5d341e179e28 *src/cyclops/CyclicCoordinateDescent.cpp
-587315f033326c4b45d9dc0e8c811732 *src/cyclops/CyclicCoordinateDescent.h
+3fee2b1e9393f46bb0db1b21d454e074 *src/cyclops/CyclicCoordinateDescent.h
 50a6000f95b2843b674f81ed4cd5d05d *src/cyclops/Iterators.h
 9c869082eb411b0336466d79ef328d6e *src/cyclops/ModelData.cpp
 084b7437a86a0033258c54ed208d68ed *src/cyclops/ModelData.h
@@ -123,9 +123,9 @@ eb4062a8c64a7facec67b431b3d716ea *src/cyclops/drivers/GridSearchCrossValidationD
 e2dccd23788149f1d74946d2a7cbca53 *src/cyclops/drivers/ProportionSelector.h
 1fa403565e4ed2d1760e757c5fc6522c *src/cyclops/engine/AbstractModelSpecifics.cpp
 1d50bf37bd732b36faabf534cd90102d *src/cyclops/engine/AbstractModelSpecifics.h
-26bc95bdfd46c753c6656281814410ed *src/cyclops/engine/ModelSpecifics.h
+33ff5344d89e31d493b22c48f87dc77f *src/cyclops/engine/ModelSpecifics.h
 1cb46cf9d0a722c46cae63aaada98fd2 *src/cyclops/engine/ModelSpecifics.hpp
-34c81b73804584089f86fd5c4fbb01db *src/cyclops/engine/ParallelLoops.h
+ce3960fcc21c0d1aca8fa47be1f871b8 *src/cyclops/engine/ParallelLoops.h
 caf113fb4354360f66fc4346260676b5 *src/cyclops/engine/Ranges.h
 8dc8e79c57cc0293c52bcf9ec7bf258a *src/cyclops/engine/Recursions.hpp
 c90d8c9fbf861680760f4a7b3d8a12b4 *src/cyclops/engine/ThreadPool.h
@@ -148,7 +148,7 @@ bff9084794d10e09ecbad211862a11d8 *src/cyclops/priors/NewCovariatePrior.h
 36a8c5ad8e670d6c23f41c480b437b56 *src/tinythread/fast_mutex.h
 8a528ad8b8ceed7f8fb75d628ffd5b63 *src/tinythread/tinythread.cpp
 41387be167ada858356bf2475fd6d15a *src/tinythread/tinythread.h
-1684e808dd3b309d0ffc4bfc16d4cc9a *src/utils/HParSearch.cpp
+4a1c7f2c03ae1e4ba1bbc3ebb4d02f90 *src/utils/HParSearch.cpp
 670bc336c29e41a6793b271c124301b2 *src/utils/HParSearch.h
 8f24cec642731dde4bb17099841769a7 *src/utils/RZeroIn.h
 69cb3bd105d2e5748b3fcca2a5fe3f4a *tests/testthat.R
@@ -177,5 +177,4 @@ e885739912d77bd56a58e5edca4bea87 *tests/testthat/test-normalization.R
 7dec35624d6032ea520195222e4c3e9d *tests/testthat/test-smallPoisson.R
 87f085aa0e255f50055d0015e596a0c7 *tests/testthat/test-sqlConstructor.R
 d77d72312cf89e5b38131118969164ed *tests/testthat/test-survfit.R
-3767926737c0ac1eefd362e33292a3bd *tests/testthat/test-weighted_cv.R
 0e9f99eaec7ad589f89fe0daf6f6bd9b *tests/testthat/test-xyConstructor.R
