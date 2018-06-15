@@ -1,4 +1,16 @@
-Cyclops v1.3.2 (Release date: 2018-05-03)
+Cyclops v1.3.4 (Release date: 2018-06-11)
+
+Changes: 1. fix undeclared dependencies in unit-tests: `MASS` and `microbenchmarks`
+		 2. fix issues with ATLAS compilation
+		 3. add contexts to testthat files
+		 4. fix ASAN errors in AbstractModelSpecifics
+
+Cyclops v1.3.3 (Not released)
+==============
+
+Changes: 1. fix testthat expected error message
+
+Cyclops v1.3.2 (Release date: 2018-05-04)
 ==============
 
 Changes: 1. explicitly includes `<complex>` header, needed for `R` 3.5 builds
