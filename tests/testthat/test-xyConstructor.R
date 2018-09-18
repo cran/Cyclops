@@ -1,5 +1,5 @@
-library(testthat)
-library(survival)
+library("testthat")
+library("survival")
 
 context("test-xyConstructor.R")
 

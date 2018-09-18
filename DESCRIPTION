@@ -2,12 +2,13 @@ Package: Cyclops
 Type: Package
 Title: Cyclic Coordinate Descent for Logistic, Poisson and Survival
         Analysis
-Version: 1.3.4
+Version: 2.0.0
 Authors@R: c(
     person("Marc A.", "Suchard", email = "msuchard@ucla.edu", role = c("aut","cre")),
     person("Martijn J.", "Schuemie", role = "aut"),
     person("Trevor R.", "Shaddox", role = "aut"),
     person("Yuxi", "Tian", role = "aut"),
+    person("Jianxiao", "Yang", role = "aut"),
     person("Sushil", "Mittal", role ="ctb"),
     person("Observational Health Data Sciences and Informatics", role = "cph"),
     person("Marcus", "Geelnard", role = c("cph", "ctb"),
@@ -28,17 +29,18 @@ LazyData: Yes
 URL: https://github.com/ohdsi/cyclops
 BugReports: https://github.com/ohdsi/cyclops/issues
 Depends: R (>= 3.1.0)
-Imports: Matrix, Rcpp (>= 0.12.4), bit, ff, ffbase, RcppParallel,
+Imports: Matrix, Rcpp (>= 0.12.12), bit, ff, ffbase, RcppParallel,
         methods, survival, MASS
-LinkingTo: Rcpp, BH (>= 1.51.0), RcppEigen (>= 0.3.2), RcppParallel
+LinkingTo: Rcpp, BH (>= 1.51.0), RcppEigen (>= 0.3.2)
 Suggests: testthat, gnm, ggplot2, microbenchmark
 RoxygenNote: 6.0.1
 NeedsCompilation: yes
-Packaged: 2018-06-12 22:16:55 UTC; msuchard
+Packaged: 2018-09-18 21:36:07 UTC; msuchard
 Author: Marc A. Suchard [aut, cre],
   Martijn J. Schuemie [aut],
   Trevor R. Shaddox [aut],
   Yuxi Tian [aut],
+  Jianxiao Yang [aut],
   Sushil Mittal [ctb],
   Observational Health Data Sciences and Informatics [cph],
   Marcus Geelnard [cph, ctb] (provided the TinyThread library),
@@ -46,4 +48,4 @@ Author: Marc A. Suchard [aut, cre],
   R Development Core Team [cph, ctb] (provided the ZeroIn routine)
 Maintainer: Marc A. Suchard <msuchard@ucla.edu>
 Repository: CRAN
-Date/Publication: 2018-06-15 15:50:20 UTC
+Date/Publication: 2018-09-18 22:00:03 UTC
