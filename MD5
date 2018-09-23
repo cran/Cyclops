@@ -1,6 +1,6 @@
-09e2fdba6d882cd6e5ddee97b8c30c4b *DESCRIPTION
-c19b0516b6380429afa95fd8dad4be51 *NAMESPACE
-523e6688970dc395a1cbf789b0648753 *NEWS
+3168bd822b1c05d1253497e6aaeeb63f *DESCRIPTION
+e22fec3b06d0919af58334bca0702411 *NAMESPACE
+5ded3fe160a89394b0bbdce17f6a13ea *NEWS
 e154bfc0f50fea35c2e225c1a940e1d3 *R/CrossValidationControl.R
 6a5c1d1c0ad0772bb2293b82e2e3681b *R/DataManagement.R
 45e49125b00bc49afd7718abe2a6acaa *R/ExampleData.R
@@ -15,7 +15,7 @@ b1f89c514d0b42577d18bcd4cad63696 *R/RcppExports.R
 f6a6d1d23eea398e450c63fd785dcfba *R/Simulation.R
 12ac98c65da0a7d909ec90a5f4ef5788 *R/SpecialPriors.R
 2013626eaf710f3329b22c837e5eda55 *R/Survfit.R
-82d0e5c347aaa4e193c127513f2905c7 *R/cyclops.R
+5b2eae8e199d92ea1ffc2c63af60fbb2 *R/cyclops.R
 89958c752d97b54eb7b4b8fff9285c09 *README.md
 97359edf34b53a80b1b890aee97bb88a *data/oxford.rda
 486ad7931a4cb183f491056c91677af9 *inst/CITATION
@@ -96,7 +96,7 @@ e87e7dd87712f949371f95b4ec7d261d *src/cyclops/CompressedDataMatrix.h
 604541838357f6cb1f624615758ca29a *src/cyclops/CyclicCoordinateDescent.cpp
 ad7c36cfdd386551c761515fafd8a374 *src/cyclops/CyclicCoordinateDescent.h
 50466079ed5cd0ac53c0ce4aaebe551b *src/cyclops/Iterators.h
-a215a94d2d429b651200b5021afb8546 *src/cyclops/ModelData.cpp
+af032b979132c28106d1f786938ce051 *src/cyclops/ModelData.cpp
 c678cbc66d830c183fd0727dfa6e2a2f *src/cyclops/ModelData.h
 9e4f87ef062b98453bb1a50cb6d96ba4 *src/cyclops/Thread.h
 e8c9b94d87a6386dfbb2293068a51e8f *src/cyclops/Timer.cpp
@@ -125,10 +125,10 @@ cb6feefb52c85dd2d29e6e2a1056e7bb *src/cyclops/drivers/HierarchyAutoSearchCrossVa
 fd2c6c875cdb7e5ff6e6dc2077a67c1a *src/cyclops/drivers/HierarchyGridSearchCrossValidationDriver.h
 5baec7f55609b16adfcbdcf294543f47 *src/cyclops/drivers/ProportionSelector.cpp
 ef8adbe6ea6e8506b721c61bdb62a0e3 *src/cyclops/drivers/ProportionSelector.h
-f8b906dfb3f21bd6e3a6e7abbf35de62 *src/cyclops/engine/AbstractModelSpecifics.cpp
+823306d89e197a596d95b51eef57839c *src/cyclops/engine/AbstractModelSpecifics.cpp
 b3bfbffb946762b9bbf7b19882a2e461 *src/cyclops/engine/AbstractModelSpecifics.h
 37a525173bebdb9d84fa04a895e59eeb *src/cyclops/engine/ModelSpecifics.h
-79a729c79d840dceaa039ab04518e506 *src/cyclops/engine/ModelSpecifics.hpp
+1f5d77f01e198f9c3fd49f652966e9ce *src/cyclops/engine/ModelSpecifics.hpp
 a03849368c5a69d0f5bdcc3534f53e00 *src/cyclops/engine/ParallelLoops.h
 96f2057ed0d005656aa8b76a4921d0f4 *src/cyclops/engine/Ranges.h
 63b161a131a2cd2e6ad34f75ff422083 *src/cyclops/engine/Recursions.hpp
