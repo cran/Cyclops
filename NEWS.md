@@ -1,4 +1,19 @@
+Cyclops v3.0.0
+==============
+
+Changes:
+
+1. switch to `Andromeda` from `ff` to hold large datasets.  This change breaks API
+
+Cyclops v2.0.4
+==============
+
+Changes:
+
+1. removed, unused variable imputation functions that contained a `std::exit`
+
 Cyclops v2.0.3
+==============
 
 Changes:
 
