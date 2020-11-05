@@ -241,6 +241,24 @@ fitCyclopsModel <- function(cyclopsData,
         .cyclopsSetWeights(cyclopsData$cyclopsInterfacePtr, weights)
     }
 
+    # censorWeight check for the Fine-Gray model
+    if (cyclopsData$modelType == "fgr" & is.null(cyclopsData$censorWeights)) {
+        stop("Subject-specific censoring weights must be specified for modelType = 'fgr'.")
+    }
+
+    if (!is.null(cyclopsData$censorWeights)) {
+        if (cyclopsData$modelType != 'fgr') {
+            warning(paste0("modelType = '", cyclopsData$modelType, "' does not use censorWeights. These weights will not be passed further."))
+        }
+        if (length(cyclopsData$censorWeights) != getNumberOfRows(cyclopsData)) {
+            stop("Must provide a censorWeight for each data row")
+        }
+        if (any(cyclopsData$censorWeights < 0) || any(cyclopsData$censorWeights > 1)) {
+            stop("Only weights between 0 and 1 are allowed for censorWeights")
+        }
+        .cyclopsSetCensorWeights(cyclopsData$cyclopsInterfacePtr, cyclopsData$censorWeights)
+    }
+
     if (prior$useCrossValidation) {
         minCVData <- control$minCVData
         if (control$selectorType == "byRow" && minCVData > getNumberOfRows(cyclopsData)) {
@@ -443,7 +461,7 @@ print.cyclopsFit <- function(x, show.call=TRUE ,...) {
 #' @param upperLimit				Numeric: Upper prior variance limit for grid-search
 #' @param gridSteps					Numeric: Number of steps in grid-search
 #' @param cvRepetitions			Numeric: Number of repetitions of X-fold cross validation
-#' @param minCVData					Numeric: Minumim number of data for cross validation
+#' @param minCVData					Numeric: Minimum number of data for cross validation
 #' @param noiseLevel				String: level of Cyclops screen output (\code{"silent"}, \code{"quiet"}, \code{"noisy"})
 #' @param threads               Numeric: Specify number of CPU threads to employ in cross-validation; default = 1 (auto = -1)
 #' @param seed                  Numeric: Specify random number generator seed. A null value sets seed via \code{\link{Sys.time}}.

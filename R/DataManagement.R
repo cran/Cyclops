@@ -50,6 +50,8 @@
 #' Currently unused
 #' @param weights
 #' Currently unused
+#' @param censorWeights
+#' Vector of subject-specific censoring weights (between 0 and 1). Currently only supported in \code{modelType = "fgr"}.
 #' @param offset
 #' Currently unused
 #' @param pid
@@ -97,7 +99,7 @@
 #'
 #' @export
 createCyclopsData <- function(formula, sparseFormula, indicatorFormula, modelType,
-                              data, subset = NULL, weights = NULL, offset = NULL, time = NULL, pid = NULL, y = NULL, type = NULL, dx = NULL,
+                              data, subset = NULL, weights = NULL, censorWeights = NULL, offset = NULL, time = NULL, pid = NULL, y = NULL, type = NULL, dx = NULL,
                               sx = NULL, ix = NULL, model = FALSE, normalize = NULL,
                               floatingPoint = 64,
                               method = "cyclops.fit") {
@@ -119,7 +121,7 @@ createCyclopsData <- function(formula, sparseFormula, indicatorFormula, modelTyp
             data <- environment(formula)
         }
         mf.all <- match.call(expand.dots = FALSE)
-        m.d <- match(c("formula", "data", "subset", "weights",
+        m.d <- match(c("formula", "data", "subset", "weights", "censorWeights",
                        "offset"), names(mf.all), 0L)
         mf.d <- mf.all[c(1L, m.d)]
         mf.d$drop.unused.levels <- TRUE
@@ -129,7 +131,7 @@ createCyclopsData <- function(formula, sparseFormula, indicatorFormula, modelTyp
         outcome <- model.response(mf.d)
         if (inherits(outcome, "Surv")) {
             if (!.isSurvivalModelType(modelType)) {
-                stop("Censored outcomes are currently only support for Cox regression.")
+                stop("Censored outcomes are currently only supported for Cox regression.")
             }
             if (dim(outcome)[2] == 3) {
                 time <- as.numeric(outcome[,2] - outcome[,1])
@@ -210,7 +212,7 @@ createCyclopsData <- function(formula, sparseFormula, indicatorFormula, modelTyp
             if (missing(data)) {
                 data <- environment(sparseFormula)
             }
-            m.s <- match(c("sparseFormula", "data", "subset", "weights",
+            m.s <- match(c("sparseFormula", "data", "subset", "weights", "censorWeights",
                            "offset"), names(mf.all), 0L)
             mf.s <- mf.all[c(1L, m.s)]
             mf.s$drop.unused.levels <- TRUE
@@ -238,7 +240,7 @@ createCyclopsData <- function(formula, sparseFormula, indicatorFormula, modelTyp
             if (missing(data)) {
                 data <- environment(indicatorFormula)
             }
-            m.i <- match(c("indicatorFormula", "data", "subset", "weights",
+            m.i <- match(c("indicatorFormula", "data", "subset", "weights", "censorWeights",
                            "offset"), names(mf.all), 0L)
             mf.i <- mf.all[c(1L, m.i)]
             mf.i$drop.unused.levels <- TRUE
@@ -272,6 +274,9 @@ createCyclopsData <- function(formula, sparseFormula, indicatorFormula, modelTyp
             }
             if (!missing(weights)) {
                 weights <- weights[sortOrder]
+            }
+            if (!missing(censorWeights)) {
+                censorWeights <- censorWeights[sortOrder]
             }
             time <- time[sortOrder]
             dx <- dx[sortOrder, ]
@@ -361,6 +366,7 @@ createCyclopsData <- function(formula, sparseFormula, indicatorFormula, modelTyp
 
     result$sortOrder <- sortOrder
     result$weights <- weights
+    result$censorWeights <- censorWeights
 
     if (identical(method, "debug")) {
         result$debug <- list()
@@ -487,7 +493,6 @@ createCyclopsData <- function(formula, sparseFormula, indicatorFormula, modelTyp
 #' @template types
 #'
 #' @param fileName          Name of text file to be read. If fileName does not contain an absolute path,
-#' 												 the name is relative to the current working directory, \code{\link{getwd}}.
 #'
 #' @return
 #' A list that contains a Cyclops model data object pointer and an operation duration
@@ -670,17 +675,19 @@ appendSqlCyclopsData <- function(object,
                           cCovariateValue)
 }
 
+#' @importFrom bit64 as.integer64 is.integer64
 #' @keywords internal
-loadNewSeqlCyclopsDataMultipleX <- function(object,
-                                            covariateId, # Vector
-                                            rowId, # Vector
-                                            covariateValue = NULL, # Vector
-                                            name,
-                                            append = FALSE,
-                                            checkSorting = FALSE,
-                                            checkCovariateIds = FALSE,
-                                            checkCovariateBounds = FALSE,
-                                            forceSparse = FALSE) {
+loadNewSqlCyclopsDataMultipleX <- function(object,
+                                           covariateId, # Vector
+                                           rowId, # Vector
+                                           covariateValue = NULL, # Vector
+                                           name,
+                                           append = FALSE,
+                                           checkSorting = FALSE,
+                                           checkCovariateIds = FALSE,
+                                           checkCovariateBounds = FALSE,
+                                           forceSparse = FALSE) {
+
     if (!isInitialized(object)) stop("Object is no longer or improperly initialized.")
 
     if (length(covariateId) != length(rowId)) stop("Vector length mismatch")
@@ -688,14 +695,21 @@ loadNewSeqlCyclopsDataMultipleX <- function(object,
     if (is.null(covariateValue)) {
         if (forceSparse) stop("Must provide covariate values when forcing sparse")
         covariateValue <- as.numeric(c())
-    }
-    else {
+    } else {
         if (length(covariateId) != length(covariateValue)) stop ("Vector length mismatch")
     }
 
     if (checkSorting) {
         # TODO: Check sorted by (1) covariateId, (2) rowId
         stop("Not yet implemented")
+    }
+
+    if (!bit64::is.integer64(covariateId)) {
+      covariateId <- bit64::as.integer64(covariateId)
+    }
+
+    if (!bit64::is.integer64(rowId)) {
+      rowId <- bit64::as.integer64(rowId)
     }
 
     index <- .loadCyclopsDataMultipleX(object,
@@ -708,12 +722,12 @@ loadNewSeqlCyclopsDataMultipleX <- function(object,
                                        forceSparse)
 
     if (!missing(name)) {
-        if(is.null(object$coefficientNames)) {
+        if (is.null(object$coefficientNames)) {
             object$coefficientNames <- as.character(c())
         }
         start <- index + 1
         end <- index + length(name)
-        object$coefficientNames[start:end] <- name
+        object$coefficientNames[start:end] <- as.character(name)
     }
 }
 
@@ -734,10 +748,18 @@ loadNewSqlCyclopsDataX <- function(object,
         stop("Replacing an X column is not currently supported")
     }
 
-    if (is.null(rowId)) rowId <- as.integer(c())
+    if (is.null(rowId)) rowId <- bit64::as.integer64(c())
     if (is.null(covariateValue)) {
         if (forceSparse) stop("Must provide covariate values when forcing sparse")
         covariateValue <- as.numeric(c())
+    }
+
+    if (!bit64::is.integer64(covariateId)) {
+      covariateId <- bit64::as.integer64(covariateId)
+    }
+
+    if (!bit64::is.integer64(rowId)) {
+      rowId <- bit64::as.integer64(rowId)
     }
 
     # throws error if covariateId already exists and append == FALSE
@@ -767,8 +789,8 @@ loadNewSqlCyclopsDataY <- function(object,
         stop("Object is no longer or improperly initialized.")
     }
 
-    if (is.null(stratumId)) stratumId <- as.integer(c())
-    if (is.null(rowId)) rowId <- as.integer(c())
+    if (is.null(stratumId)) stratumId <- bit64::as.integer64(c())
+    if (is.null(rowId)) rowId <- bit64::as.integer64(c())
 
     if (is.unsorted(stratumId)) {
         stop("All columns must be sorted first by stratumId (if supplied) and then by rowId")
@@ -777,6 +799,14 @@ loadNewSqlCyclopsDataY <- function(object,
     if (is.null(time)) {
         if (.isSurvivalModelType(object$modelType)) stop("Must provide time for survival model")
         time <- as.numeric(c())
+    }
+
+    if (!bit64::is.integer64(stratumId)) {
+      stratumId <- bit64::as.integer64(stratumId)
+    }
+
+    if (!bit64::is.integer64(rowId)) {
+      rowId <- bit64::as.integer64(rowId)
     }
 
     .loadCyclopsDataY(object,
@@ -800,7 +830,7 @@ loadNewSqlCyclopsDataY <- function(object,
 #' @param offsetAlreadyOnLogScale						Set to \code{TRUE} to indicate that offsets were log-transformed before importing into Cyclops data object.
 #' @param sortCovariates			Sort covariates in numeric-order with intercept first if it exists.
 #' @param makeCovariatesDense List of numeric or character covariates names to densely represent in Cyclops data object.
-#' 														For efficiency, we suggest making atleast the intercept dense.
+#' 														For efficiency, we suggest making at least the intercept dense.
 ##' @keywords internal
 #' @export
 finalizeSqlCyclopsData <- function(object,
@@ -877,6 +907,27 @@ isInitialized <- function(object) {
 }
 
 
+#' @title Get covariate types
+#'
+#' @description
+#' \code{getCovariateTypes} returns a vector covariate types in a Cyclops data object
+#'
+#' @param object    A Cyclops data object
+#' @param covariateLabel Integer vector: covariate identifiers to return
+#'
+#' @export
+getCovariateTypes <- function(object, covariateLabel) {
+  if (!isInitialized(object)) {
+    stop("Cyclops data object is no longer or improperly initialized")
+  }
+
+  if (!bit64::is.integer64(covariateLabel)) {
+    covariateLabel <- bit64::as.integer64(covariateLabel)
+  }
+
+  return(.getCovariateTypes(object, covariateLabel))
+}
+
 #' @title Cyclops data object summary
 #'
 #' @method summary cyclopsData
@@ -920,11 +971,7 @@ summary.cyclopsData <- function(object, ...) {
     }
 
     if (!is.null(object$coefficientNames)) {
-        #         if(.cyclopsGetHasIntercept(x)) {
-        #             row.names(tdf) <- x$coefficientNames[-1]
-        #         } else {
         row.names(tdf) <- object$coefficientNames
-        #         }
     }
     tdf
 }

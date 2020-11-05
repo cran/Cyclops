@@ -37,6 +37,10 @@
     invisible(.Call(`_Cyclops_cyclopsSetWeights`, inRcppCcdInterface, weights))
 }
 
+.cyclopsSetCensorWeights <- function(inRcppCcdInterface, weights) {
+    invisible(.Call(`_Cyclops_cyclopsSetCensorWeights`, inRcppCcdInterface, weights))
+}
+
 .cyclopsGetPredictiveLogLikelihood <- function(inRcppCcdInterface, weights) {
     .Call(`_Cyclops_cyclopsGetPredictiveLogLikelihood`, inRcppCcdInterface, weights)
 }
@@ -136,7 +140,7 @@ getNumberOfStrata <- function(object) {
 #' @title Get covariate identifiers
 #'
 #' @description
-#' \code{getCovariateIds} returns a vector of integer covariate identifiers in a Cyclops data object
+#' \code{getCovariateIds} returns a vector of integer64 covariate identifiers in a Cyclops data object
 #'
 #' @param object    A Cyclops data object
 #'
@@ -145,17 +149,8 @@ getCovariateIds <- function(object) {
     .Call(`_Cyclops_cyclopsGetCovariateIds`, object)
 }
 
-#' @title Get covariate types
-#'
-#' @description
-#' \code{getCovariateTypes} returns a vector covariate types in a Cyclops data object
-#'
-#' @param object    A Cyclops data object
-#' @param covariateLabel Integer vector: covariate identifiers to return
-#'
-#' @export
-getCovariateTypes <- function(object, covariateLabel) {
-    .Call(`_Cyclops_cyclopsGetCovariateType`, object, covariateLabel)
+.getCovariateTypes <- function(object, bitCovariateLabel) {
+    .Call(`_Cyclops_cyclopsGetCovariateType`, object, bitCovariateLabel)
 }
 
 #' @title Get floating point size
@@ -291,8 +286,8 @@ getTimeVector <- function(object) {
     .Call(`_Cyclops_cyclopsLoadDataMultipleX`, x, covariateId, rowId, covariateValue, checkCovariateIds, checkCovariateBounds, append, forceSparse)
 }
 
-.loadCyclopsDataX <- function(x, covariateId, rowId, covariateValue, replace, append, forceSparse) {
-    .Call(`_Cyclops_cyclopsLoadDataX`, x, covariateId, rowId, covariateValue, replace, append, forceSparse)
+.loadCyclopsDataX <- function(x, bitCovariateId, rowId, covariateValue, replace, append, forceSparse) {
+    .Call(`_Cyclops_cyclopsLoadDataX`, x, bitCovariateId, rowId, covariateValue, replace, append, forceSparse)
 }
 
 .appendSqlCyclopsData <- function(x, oStratumId, oRowId, oY, oTime, cRowId, cCovariateId, cCovariateValue) {

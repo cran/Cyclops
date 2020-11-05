@@ -12,6 +12,7 @@ createCyclopsData(
   data,
   subset = NULL,
   weights = NULL,
+  censorWeights = NULL,
   offset = NULL,
   time = NULL,
   pid = NULL,
@@ -40,6 +41,8 @@ createCyclopsData(
 \item{subset}{Currently unused}
 
 \item{weights}{Currently unused}
+
+\item{censorWeights}{Vector of subject-specific censoring weights (between 0 and 1). Currently only supported in \code{modelType = "fgr"}.}
 
 \item{offset}{Currently unused}
 
@@ -97,6 +100,7 @@ Currently supported model types are:
  \verb{	"cpr"} \tab Conditional Poisson regression \cr
 	\verb{	"sccs"} \tab Self-controlled case series \cr
 	\verb{	"cox"} \tab Cox proportional hazards regression \cr
+	\verb{	"fgr"} \tab Fine-Gray proportional subdistribution hazards regression \cr
 }
 }
 

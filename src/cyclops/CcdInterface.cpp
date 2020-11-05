@@ -558,21 +558,24 @@ double CcdInterface::evaluateProfileModel(CyclicCoordinateDescent *ccd, Abstract
         x0s[j] = ccd->getBeta(j);
     }
 
-    std::vector<CyclicCoordinateDescent*> ccdPool;
-    ccdPool.push_back(ccd);
-
-    for (int i = 1; i < nThreads; ++i) {
-        ccdPool.push_back(ccd->clone());
-    }
-
     auto evaluate = [this, index, includePenalty](const double point,
-                            CyclicCoordinateDescent* ccd) {
+                                                  CyclicCoordinateDescent* ccd) {
 
         OptimizationProfile eval(*ccd, arguments, index,
                                  0.0, 0.0, includePenalty);
 
         return eval.objective(point);
     };
+
+    ccd->makeDirty(); // Reset internal memory
+    evaluate(0.0, ccd);
+
+    std::vector<CyclicCoordinateDescent*> ccdPool;
+    ccdPool.push_back(ccd);
+
+    for (int i = 1; i < nThreads; ++i) {
+        ccdPool.push_back(ccd->clone());
+    }
 
     if (nThreads == 1) {
         for (int i = 0; i < points.size(); ++i) {
@@ -658,6 +661,9 @@ double CcdInterface::fitModel(CyclicCoordinateDescent *ccd) {
 	struct timeval time1, time2;
 	gettimeofday(&time1, NULL);
 
+	//Eric: Commented this out.
+	//std::vector<double> weights(7, 1.0);
+	//ccd->setWeights(weights.data());
 	ccd->update(arguments.modeFinding);
 
 	gettimeofday(&time2, NULL);

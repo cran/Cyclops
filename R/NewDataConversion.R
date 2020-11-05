@@ -32,7 +32,7 @@ isSorted <- function(data, columnNames, ascending = rep(TRUE, length(columnNames
 #' @param checkSorting  (DEPRECATED) Check if the data are sorted appropriately, and if not, sort.
 #' @param checkRowIds   Check if all rowIds in the covariates appear in the outcomes.
 #' @param normalize     String: Name of normalization for all non-indicator covariates (possible values: stdev, max, median)
-#' @param quiet         If true, (warning) messages are surpressed.
+#' @param quiet         If true, (warning) messages are suppressed.
 #' @param floatingPoint Specified floating-point representation size (32 or 64)
 #'
 #' @details
@@ -43,7 +43,8 @@ isSorted <- function(data, columnNames, ascending = rep(TRUE, length(columnNames
 #'   \verb{y}    \tab(real) \tab The outcome variable \cr
 #'   \verb{time}    \tab(real) \tab For models that use time (e.g. Poisson or Cox regression) this contains time \cr
 #'                  \tab        \tab(e.g. number of days) \cr
-#'   \verb{weight} \tab(real) \tab (optional) Non-negative weight to apply to outcome
+#'   \verb{weights} \tab(real) \tab (optional) Non-negative weights to apply to outcome \cr
+#'   \verb{censorWeights} \tab(real) \tab (optional) Non-negative censoring weights for competing risk model; will be computed if not provided.
 #' }
 #'
 #' These columns are expected in the covariates object:
@@ -116,11 +117,10 @@ convertToCyclopsData.data.frame <- function(outcomes,
         outcomes$stratumId <- NULL
         covariates$stratumId <- NULL
     }
-    if (modelType == "cox" & !"stratumId" %in% colnames(outcomes)) {
+    if ((modelType == "cox" | modelType == "fgr") & !"stratumId" %in% colnames(outcomes)) {
         outcomes$stratumId <- 0
         covariates$stratumId <- 0
     }
-
 
     if (modelType == "lr" | modelType == "pr") {
         if (!isSorted(outcomes, c("rowId"))) {
@@ -147,7 +147,13 @@ convertToCyclopsData.data.frame <- function(outcomes,
             covariates <- covariates[order(covariates$covariateId, covariates$stratumId, covariates$rowId),]
         }
     }
-    if (modelType == "cox") {
+
+    if (modelType == "cox" | modelType == "fgr") {
+
+        if (modelType == "cox" & length(unique(outcomes$y)) > 2) {
+            stop("Cox model only accepts one outcome type")
+        }
+
         if (!isSorted(outcomes,
                       c("stratumId", "time", "y", "rowId"),
                       c(TRUE, FALSE, TRUE, TRUE))) {
@@ -169,6 +175,7 @@ convertToCyclopsData.data.frame <- function(outcomes,
             covariates <- covariates[order(covariates$covariateId, covariates$stratumId, -covariates$time, covariates$y, covariates$rowId),]
         }
     }
+
     if (checkRowIds) {
         mapping <- match(covariates$rowId,outcomes$rowId)
         if (any(is.na(mapping))) {
@@ -178,6 +185,7 @@ convertToCyclopsData.data.frame <- function(outcomes,
             covariates <- covariates[covariateRowsWithMapping,]
         }
     }
+
     dataPtr <- createSqlCyclopsData(modelType = modelType, floatingPoint = floatingPoint)
 
     loadNewSqlCyclopsDataY(object = dataPtr,
@@ -186,15 +194,16 @@ convertToCyclopsData.data.frame <- function(outcomes,
                            y = outcomes$y,
                            time = if ("time" %in% colnames(outcomes)) outcomes$time else NULL)
 
-    if (addIntercept & modelType != "cox")
+    if (addIntercept & (modelType != "cox" & modelType != "fgr")) {
         loadNewSqlCyclopsDataX(dataPtr, 0, NULL, NULL, name = "(Intercept)")
+    }
 
     covarNames <- unique(covariates$covariateId)
-    loadNewSeqlCyclopsDataMultipleX(object = dataPtr,
-                                    covariateId = covariates$covariateId,
-                                    rowId = covariates$rowId,
-                                    covariateValue = covariates$covariateValue,
-                                    name = covarNames)
+    loadNewSqlCyclopsDataMultipleX(object = dataPtr,
+                                   covariateId = covariates$covariateId,
+                                   rowId = covariates$rowId,
+                                   covariateValue = covariates$covariateValue,
+                                   name = covarNames)
     if (modelType == "pr" || modelType == "cpr")
         finalizeSqlCyclopsData(dataPtr, useOffsetCovariate = -1)
 
@@ -202,10 +211,21 @@ convertToCyclopsData.data.frame <- function(outcomes,
         .normalizeCovariates(dataPtr, normalize)
     }
 
-    if ("weight" %in% colnames(outcomes)) {
-        dataPtr$weights <- outcomes$weight
+    if ("weights" %in% colnames(outcomes)) {
+        dataPtr$weights <- outcomes$weights
     } else {
-        dataPtr$weights <- NULL
+        dataPtr$censorWeights <- NULL
+    }
+
+    if ("censorWeights" %in% colnames(outcomes)) {
+        dataPtr$censorWeights <- outcomes$censorWeights
+    } else {
+        if (modelType == "fgr") {
+            dataPtr$censorWeights <- getFineGrayWeights(outcomes$time, outcomes$y)$weights
+            writeLines("Generating censoring weights")
+        } else {
+            dataPtr$censorWeights <- NULL
+        }
     }
 
     return(dataPtr)
@@ -231,6 +251,7 @@ convertToCyclopsData.tbl_dbi <- function(outcomes,
         }
         addIntercept = FALSE
     }
+
     if (modelType == "pr" | modelType == "cpr") {
         if (any(outcomes$time <= 0)) {
             stop("time cannot be non-positive", call. = FALSE)
@@ -239,7 +260,7 @@ convertToCyclopsData.tbl_dbi <- function(outcomes,
 
     providedNoStrata <- !"stratumId" %in% colnames(outcomes)
 
-    if (modelType == "cox") {
+    if (modelType == "cox" | modelType == "fgr") {
         if (providedNoStrata) {
             outcomes <- outcomes %>%
                 mutate(stratumId = 0)
@@ -281,7 +302,14 @@ convertToCyclopsData.tbl_dbi <- function(outcomes,
         covariates <- covariates %>%
             arrange(.data$covariateId, .data$stratumId, .data$rowId)
     }
-    if (modelType == "cox") {
+
+    if (modelType == "cox" | modelType == "fgr") {
+
+        if (modelType == "cox" &
+            (select(outcomes, .data$y) %>% distinct() %>% count() %>% collect() > 2)) {
+            stop("Cox model only accepts one outcome type")
+        }
+
         outcomes <- outcomes %>%
             arrange(.data$stratumId, desc(.data$time), .data$y, .data$rowId)
         if (!"time" %in% colnames(covariates)) {
@@ -305,12 +333,13 @@ convertToCyclopsData.tbl_dbi <- function(outcomes,
                            y = outcomes$y,
                            time = if ("time" %in% colnames(outcomes)) outcomes$time else NULL)
 
-    if (addIntercept & modelType != "cox")
+    if (addIntercept & (modelType != "cox" & modelType != "fgr")) {
         loadNewSqlCyclopsDataX(dataPtr, 0, NULL, NULL, name = "(Intercept)")
+    }
 
     loadCovariates <- function(batch) {
         covarNames <- unique(batch$covariateId)
-        loadNewSeqlCyclopsDataMultipleX(object = dataPtr,
+        loadNewSqlCyclopsDataMultipleX(object = dataPtr,
                                         covariateId = batch$covariateId,
                                         rowId = batch$rowId,
                                         covariateValue = batch$covariateValue,
@@ -329,12 +358,24 @@ convertToCyclopsData.tbl_dbi <- function(outcomes,
         .normalizeCovariates(dataPtr, normalize)
     }
 
-    if ("weight" %in% colnames(outcomes)) {
-        dataPtr$weights <- outcomes %>%
-            select(.data$weight) %>%
-            pull()
+    if ("weights" %in% colnames(outcomes)) {
+        dataPtr$weights <- outcomes %>% pull(.data$weights)
     } else {
         dataPtr$weights <- NULL
+    }
+
+    if ("censorWeights" %in% colnames(outcomes)) {
+        dataPtr$censorWeights <- outcomes %>% pull(.data$censorWeights)
+    } else {
+        if (modelType == "fgr") {
+            dataPtr$censorWeights <- getFineGrayWeights(
+                outcomes %>% pull(.data$time),
+                outcomes %>% pull(.data$y)
+            )$weights
+            writeLines("Generating censoring weights")
+        } else {
+            dataPtr$censorWeights <- NULL
+        }
     }
 
     return(dataPtr)

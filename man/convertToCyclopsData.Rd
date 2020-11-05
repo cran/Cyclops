@@ -57,7 +57,7 @@ convertToCyclopsData(
 
 \item{normalize}{String: Name of normalization for all non-indicator covariates (possible values: stdev, max, median)}
 
-\item{quiet}{If true, (warning) messages are surpressed.}
+\item{quiet}{If true, (warning) messages are suppressed.}
 
 \item{floatingPoint}{Specified floating-point representation size (32 or 64)}
 }
@@ -75,7 +75,8 @@ These columns are expected in the outcome object:
   \verb{y}    \tab(real) \tab The outcome variable \cr
   \verb{time}    \tab(real) \tab For models that use time (e.g. Poisson or Cox regression) this contains time \cr
                  \tab        \tab(e.g. number of days) \cr
-  \verb{weight} \tab(real) \tab (optional) Non-negative weight to apply to outcome
+  \verb{weights} \tab(real) \tab (optional) Non-negative weights to apply to outcome \cr
+  \verb{censorWeights} \tab(real) \tab (optional) Non-negative censoring weights for competing risk model; will be computed if not provided.
 }
 
 These columns are expected in the covariates object:
