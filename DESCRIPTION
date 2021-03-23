@@ -2,7 +2,7 @@ Package: Cyclops
 Type: Package
 Title: Cyclic Coordinate Descent for Logistic, Poisson and Survival
         Analysis
-Version: 3.1.0
+Version: 3.1.1
 Authors@R: c(
     person("Marc A.", "Suchard", email = "msuchard@ucla.edu", role = c("aut","cre")),
     person("Martijn J.", "Schuemie", role = "aut"),
@@ -36,7 +36,7 @@ LinkingTo: Rcpp, BH (>= 1.51.0), RcppEigen (>= 0.3.2)
 Suggests: testthat, MASS, gnm, ggplot2, microbenchmark, cmprsk
 RoxygenNote: 7.1.1
 NeedsCompilation: yes
-Packaged: 2020-11-05 18:13:09 UTC; msuchard
+Packaged: 2021-03-23 20:04:41 UTC; msuchard
 Author: Marc A. Suchard [aut, cre],
   Martijn J. Schuemie [aut],
   Trevor R. Shaddox [aut],
@@ -50,4 +50,4 @@ Author: Marc A. Suchard [aut, cre],
   R Development Core Team [cph, ctb] (provided the ZeroIn routine)
 Maintainer: Marc A. Suchard <msuchard@ucla.edu>
 Repository: CRAN
-Date/Publication: 2020-11-05 18:40:02 UTC
+Date/Publication: 2021-03-23 20:40:03 UTC
