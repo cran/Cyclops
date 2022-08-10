@@ -1,6 +1,6 @@
-8248baad8508b48e694dfdcdcbefdee5 *DESCRIPTION
+04b9b22befdacf80ed7a32b5505009dc *DESCRIPTION
 e27923b8d024349a64bf00f45b900e5a *NAMESPACE
-909ee974048aa33fa41f1583740c2cbc *NEWS.md
+110e66c93403594334b4de9df14a5e32 *NEWS.md
 e154bfc0f50fea35c2e225c1a940e1d3 *R/CrossValidationControl.R
 60810790e0be3d77c802d9e173bde862 *R/DataManagement.R
 6ec9aff5c5e1ee81b17414c7c02d324e *R/ExampleData.R
@@ -77,11 +77,11 @@ ddfbe50e62c616f03b2f10f4fc4aedd1 *src/IsSorted.cpp
 1395c5cb5f2a5417a2683da4c1a9f291 *src/IsSorted.h
 ff11dbed158cf3ff6ff0b2a5b81589c8 *src/Makevars
 e41dd55b96d2e2040f6a4e58f77437d9 *src/Makevars.win
-2dd35d68f05f1f37e77bfa050b13b2a0 *src/RcppCyclopsInterface.cpp
+9d166d71f91a11d15920972a380c466c *src/RcppCyclopsInterface.cpp
 d389e27c346c0df7af71c474c8836e2b *src/RcppCyclopsInterface.h
 95137fa3513f831260ba7808cbe0d97e *src/RcppExports.cpp
 6256301a434b02fc583da48ea5bf4ca8 *src/RcppIsSorted.cpp
-7d693acceb94c11450f295569bf4be27 *src/RcppModelData.cpp
+3f284343a16722a7e7b4c86fbc805881 *src/RcppModelData.cpp
 409015e916663afd837007cd45a38f01 *src/RcppModelData.h
 23eb55caf6bf6c1f65a7f3da8a1b8bc7 *src/RcppOutputHelper.h
 7124159a7b8ab59be74b3e95517aa8b4 *src/RcppProgressLogger.h
@@ -90,7 +90,7 @@ f14d328540470e98eb5cb46f864ad062 *src/cyclops/CcdInterface.cpp
 90b730425fb21b043ba713cd03fa2d71 *src/cyclops/CompressedDataMatrix.cpp
 e87e7dd87712f949371f95b4ec7d261d *src/cyclops/CompressedDataMatrix.h
 846d97fcc52099146b4cfda6bbeaa1b0 *src/cyclops/CyclicCoordinateDescent.cpp
-4618eebff8b46afc9d9ce21a628f3160 *src/cyclops/CyclicCoordinateDescent.h
+f909598bb2d366704375652c13faef0e *src/cyclops/CyclicCoordinateDescent.h
 943664cdee282cabda9f3d01ac2804d2 *src/cyclops/Iterators.h
 926894b2fec3c60f7b44db1cb2348e01 *src/cyclops/ModelData.cpp
 fc99edad81c9d5ca8582b5be5775911d *src/cyclops/ModelData.h
@@ -182,8 +182,8 @@ ddd10ef218280be20f67c3003842a9cb *tests/testthat/test-conditionalPoisson.R
 8fafcc86aefe330dec38622bcf30e3ca *tests/testthat/test-covariateRegularization.R
 630306ac74a8dd4b77b90c8e95acada2 *tests/testthat/test-cprViaSql.R
 4358b83d5f018460688819b22690f11d *tests/testthat/test-cv.R
-17d464d03e34e40c00937f67b8648bab *tests/testthat/test-dataConversionStratified.R
-e2f54bfc0adcacbcbe2588064fe2bc59 *tests/testthat/test-dataConversionUnstratified.R
+2f1f44bf9a3af51d21d050f9c89274e8 *tests/testthat/test-dataConversionStratified.R
+db07b3fb5247a7da45794c0479de9021 *tests/testthat/test-dataConversionUnstratified.R
 8820ad83e127fde1368ed9f16c18e12d *tests/testthat/test-dataManagement.R
 053a612f519966249646e851f9a3a99d *tests/testthat/test-fastBarUpdate.R
 683343e942ab805c5afb2b597ef37927 *tests/testthat/test-finiteMLE.R
@@ -195,7 +195,7 @@ f6f1d3f020b38d0f13493722c45663b9 *tests/testthat/test-int64.R
 4c04c2d1fc57fb87aaeeb4ff8959efc5 *tests/testthat/test-normalization.R
 297eefb68ac72b245ed386a86bf5b1c6 *tests/testthat/test-offsetPoisson.R
 1af9902ec0a7a2953d3c168b04fc84ba *tests/testthat/test-parameterizedPriors.R
-b4943007e7f2b75e51850d29d7610a57 *tests/testthat/test-predict.R
+f0b066cbbf3cadfee952f207f7ba549e *tests/testthat/test-predict.R
 472ff8dc6f417d09bced6674eab53594 *tests/testthat/test-profileLikelihood.R
 c5e6647392529779e0cefeacd677b2c7 *tests/testthat/test-reductions.R
 aa41e4731d65fb66088806fa35614e0f *tests/testthat/test-simulation.R
@@ -203,7 +203,7 @@ aa41e4731d65fb66088806fa35614e0f *tests/testthat/test-simulation.R
 067fb08cd844c732a16994edef0e5280 *tests/testthat/test-smallCLR.R
 dbb7dabc5bf4044dcff4e26a6ea8af5a *tests/testthat/test-smallCox.R
 fbafd2dd7befca4ec11e04e69a25e973 *tests/testthat/test-smallExactCLR.R
-298fd2dd0ab6ce28e243b29aa379d7e4 *tests/testthat/test-smallFineGray.R
+2c9bd533dd9795910e38245f7022634b *tests/testthat/test-smallFineGray.R
 5d175d546f3d259d87433c04985b8d2d *tests/testthat/test-smallMM.R
 72e2019f5ca3b569e6803001409c90f2 *tests/testthat/test-smallNormal.R
 0da049583bcbca01252aec85154e764a *tests/testthat/test-smallPoisson.R

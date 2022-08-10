@@ -1,4 +1,13 @@
+Cyclops v3.2.1
+==============
+
+Changes:
+
+1. fix small memory leak caused by direct call to '::Rf_error()'
+2. disable JVM calls on CRAN due to uninitialized memory in Java JVM
+
 Cyclops v3.2.0
+==============
 
 Changes:
 
