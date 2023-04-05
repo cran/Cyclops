@@ -343,7 +343,7 @@ protected:
 	string conditionId;
 
 	bool computeMLE;
-	int priorType = priors::NONE;
+	int priorType;
 
 	double initialBound;
 
