@@ -1,6 +1,6 @@
-242563aa7b2d4d58d1bd0f84dacabd0b *DESCRIPTION
+3a983476020ab9a638b3657fac79eff1 *DESCRIPTION
 e27923b8d024349a64bf00f45b900e5a *NAMESPACE
-407abf47c3eba33c87707078047789d6 *NEWS.md
+afee76c5f911d3218441bef3e8677497 *NEWS.md
 e154bfc0f50fea35c2e225c1a940e1d3 *R/CrossValidationControl.R
 60810790e0be3d77c802d9e173bde862 *R/DataManagement.R
 6ec9aff5c5e1ee81b17414c7c02d324e *R/ExampleData.R
@@ -31,7 +31,7 @@ fb36d50ec38c3d48f059777bf2240cd3 *inst/extdata/infert_ccd.txt
 e55a21592915a0bdd99f458dd47edf5b *man/appendSqlCyclopsData.Rd
 99319f3b6a8815ba51eadd263afc38f4 *man/coef.cyclopsFit.Rd
 16dc6eef8a4b9c1a78717690531f245a *man/confint.cyclopsFit.Rd
-941e2cb49b20544470a49460def87983 *man/convertToCyclopsData.Rd
+d386cbfe6c4cf6214b2de1cbe438501c *man/convertToCyclopsData.Rd
 c882a425b69f20c871d6f50b25b4930c *man/convertToCyclopsVariance.Rd
 8550027f808c1243c49571394973d00e *man/convertToGlmnetLambda.Rd
 f9881b5cb9280be5b6e080d9db763567 *man/coverage.Rd
@@ -80,11 +80,11 @@ ddfbe50e62c616f03b2f10f4fc4aedd1 *src/IsSorted.cpp
 1395c5cb5f2a5417a2683da4c1a9f291 *src/IsSorted.h
 0cb9c44924f7c3fb91a385db001f9a74 *src/Makevars.in
 3a6ac61ee5434720916dc504d1aded2e *src/Makevars.win.in
-2dd35d68f05f1f37e77bfa050b13b2a0 *src/RcppCyclopsInterface.cpp
+e24de0c73c24b7d2c6fae2ad8e23fe6b *src/RcppCyclopsInterface.cpp
 d389e27c346c0df7af71c474c8836e2b *src/RcppCyclopsInterface.h
 95137fa3513f831260ba7808cbe0d97e *src/RcppExports.cpp
 6256301a434b02fc583da48ea5bf4ca8 *src/RcppIsSorted.cpp
-7d693acceb94c11450f295569bf4be27 *src/RcppModelData.cpp
+3f284343a16722a7e7b4c86fbc805881 *src/RcppModelData.cpp
 409015e916663afd837007cd45a38f01 *src/RcppModelData.h
 23eb55caf6bf6c1f65a7f3da8a1b8bc7 *src/RcppOutputHelper.h
 7124159a7b8ab59be74b3e95517aa8b4 *src/RcppProgressLogger.h
@@ -92,7 +92,7 @@ f14d328540470e98eb5cb46f864ad062 *src/cyclops/CcdInterface.cpp
 44f6e6c75fcd46370d96d2a90bbfa68c *src/cyclops/CcdInterface.h
 90b730425fb21b043ba713cd03fa2d71 *src/cyclops/CompressedDataMatrix.cpp
 e87e7dd87712f949371f95b4ec7d261d *src/cyclops/CompressedDataMatrix.h
-846d97fcc52099146b4cfda6bbeaa1b0 *src/cyclops/CyclicCoordinateDescent.cpp
+d8a9f3ab66baadbaaf9f0301343baca0 *src/cyclops/CyclicCoordinateDescent.cpp
 4618eebff8b46afc9d9ce21a628f3160 *src/cyclops/CyclicCoordinateDescent.h
 943664cdee282cabda9f3d01ac2804d2 *src/cyclops/Iterators.h
 926894b2fec3c60f7b44db1cb2348e01 *src/cyclops/ModelData.cpp
@@ -127,7 +127,7 @@ ef8adbe6ea6e8506b721c61bdb62a0e3 *src/cyclops/drivers/ProportionSelector.h
 e77fbb6a42851a1be409d775ba40bade *src/cyclops/engine/AbstractModelSpecifics.cpp
 d0e53b570164d0e208b2dc64549bc061 *src/cyclops/engine/AbstractModelSpecifics.h
 3d87e976ce50be6980d648eae4e38dd9 *src/cyclops/engine/ModelSpecifics.h
-ca01799eb1b0ecc1557176b6be1dfe1b *src/cyclops/engine/ModelSpecifics.hpp
+bcaaaff04a2b9dc725c74909a88872fa *src/cyclops/engine/ModelSpecifics.hpp
 acf9e43262e6647bd4915a0462d352fd *src/cyclops/engine/ParallelLoops.h
 c770cd26a35d3acf705afbab0f3a2ed7 *src/cyclops/engine/Ranges.h
 63b161a131a2cd2e6ad34f75ff422083 *src/cyclops/engine/Recursions.hpp
@@ -216,4 +216,4 @@ d48dd92ba425067276e63b64284fd697 *tests/testthat/test-survfit.R
 64635da7fcdbbfdb8eac245213c5ab87 *tests/testthat/test-weighted_cv.R
 db8478cf6f98d7d694dbd8a821f6a4d4 *tests/testthat/test-weighting.R
 91351ba8c09bee2c25739a4e81798f59 *tests/testthat/test-xyConstructor.R
-d070e967cce1aca93724cc487aef35fe *tools/configure.R
+120984b8fb3c92bc9482ed0b01442c34 *tools/configure.R
