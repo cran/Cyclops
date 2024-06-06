@@ -30,17 +30,10 @@
 //    }
 // #endif
 
-#ifdef WIN_BUILD
-    #include <tr1/unordered_map>
-    namespace bsccs {
-        using std::tr1::unordered_map;
-    }
-#else
-    #include <unordered_map>
-    namespace bsccs {
-        using std::unordered_map;
-    }
-#endif
+#include <unordered_map>
+namespace bsccs {
+    using std::unordered_map;
+}
 
 namespace bsccs {
 
@@ -140,10 +133,12 @@ enum class ModelType {
 	LOGISTIC,
 	CONDITIONAL_LOGISTIC,
 	TIED_CONDITIONAL_LOGISTIC,
+	EFRON_CONDITIONAL_LOGISTIC,
 	CONDITIONAL_POISSON,
 	SELF_CONTROLLED_MODEL,
 	COX,
 	COX_RAW,
+	TIME_VARYING_COX,
 	FINE_GRAY, // ESK: Added Fine-Gray
 	SIZE_OF_ENUM // Keep at end
 };

@@ -1,3 +1,10 @@
+Cyclops v3.4.1
+==============
+
+Changes:
+
+1. fix some NaN/-Inf inconsistencies with likelihood profiling
+
 Cyclops v3.4.0
 ==============
 
