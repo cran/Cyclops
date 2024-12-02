@@ -1,13 +1,13 @@
-81dca19dae452b7a02583c64277672bb *DESCRIPTION
+ebbd8fe01b67d83afc229f463df62f08 *DESCRIPTION
 80861baa1df7ee33764a06a927351d8f *NAMESPACE
-23df02d9d32ee0cb5a06e32fb0f38d17 *NEWS.md
+ba65122a7cd9ee82d000a7b358f7d079 *NEWS.md
 e154bfc0f50fea35c2e225c1a940e1d3 *R/CrossValidationControl.R
 df6cc46bc7fae1a55b713f3d5065b35a *R/Cyclops-package.R
-2e19386dc4712390305dd8eaed6766bf *R/DataManagement.R
+f6f65d5b395ea3005c2597f2bfffaebc *R/DataManagement.R
 6ec9aff5c5e1ee81b17414c7c02d324e *R/ExampleData.R
 78133f786c668889694f5fbf01a794fd *R/GetFrineGrayWeights.R
 1612b2e17d9c759777173eb5488c27b1 *R/Gpu.R
-5812def4357bb036b350c57d6c7e63b2 *R/ModelFit.R
+aa9eeb6656b9d928606aab1386c1a3ec *R/ModelFit.R
 60ca5cb8e92f940d36463587bb35a127 *R/Multitype.R
 63e849ceafc1466f849af90c38f9db04 *R/NewDataConversion.R
 a777bc2f6acf26d8250ba3479df884d4 *R/PackageMaintenance.R
@@ -19,7 +19,7 @@ be3423d0563ec95934ed78fdd96dad4c *R/Simulation.R
 27119522579ca7738b2decb999ad5de3 *R/Survfit.R
 57de594a9cf16631362ff67bf208fb61 *R/TimeEffects.R
 339763aaf22c1c1e62820e47b0a0ff56 *R/WeightBasedSearchControl.R
-3094c3780c33a9f5523a4c5c26846634 *R/cyclops.R
+4b3989bfeead964b9cb640bed4d16d8f *R/cyclops.R
 4f702971a363821bba3e1e78f6b4eae4 *README.md
 7f2094c7b4d5faa522b624cffc621f8b *build/partial.rdb
 5fb513b04ea56cac7352b8efaf720cb6 *cleanup
@@ -44,12 +44,12 @@ a8f1bd40412b50cc7b228c76c574d2b8 *man/convertToTimeVaryingCoef.Rd
 f9881b5cb9280be5b6e080d9db763567 *man/coverage.Rd
 358cfd94df0ff423ac1c534642d9cb68 *man/createAutoGridCrossValidationControl.Rd
 1805b03d325970ae773f743536193c69 *man/createControl.Rd
-3471165c37c5f09d832eb0c7c1b7fbfb *man/createCyclopsData.Rd
+cf86cfc0221edba9991d7d4d51590483 *man/createCyclopsData.Rd
 6971cdbe787cd7301d3e0d9edfd31bae *man/createNonSeparablePrior.Rd
 29140a47f87f79bb4a022aace71287c0 *man/createParameterizedPrior.Rd
 b65222c5ccda264e14efa167666cece7 *man/createPrior.Rd
 f997960c64d7078a270eeec112afae6a *man/createWeightBasedSearchControl.Rd
-c50a2c76fb4ccb05670576f6ec7c94cd *man/cyclops.Rd
+e5b759781788498c9f67e8df23220b36 *man/cyclops.Rd
 722fc833788296860e9f905b56a7fb95 *man/finalizeSqlCyclopsData.Rd
 29501f8b0e5cbd99883e24d1ff9b3e7e *man/fitCyclopsModel.Rd
 781635a2005848f9646870d9bbc2daa4 *man/fitCyclopsSimulation.Rd
@@ -57,7 +57,7 @@ c50a2c76fb4ccb05670576f6ec7c94cd *man/cyclops.Rd
 ea576556b662492f505abec69f48e35d *man/getCovariateTypes.Rd
 6236e8fc9c325eb0538c908c6358e684 *man/getCrossValidationInfo.Rd
 a24cf62db85143b72ea30be3e4236f04 *man/getCyclopsPredictiveLogLikelihood.Rd
-21e287f18a7d33da7c4a3fd9e1c7d662 *man/getCyclopsProfileLogLikelihood.Rd
+af8a913f2a1fbaeee95ca9c82476510d *man/getCyclopsProfileLogLikelihood.Rd
 b4e44d570723d1813fb6073cdcfd4e18 *man/getFineGrayWeights.Rd
 d67f519b638e180c5c8b10c1a3b593e4 *man/getFloatingPointSize.Rd
 ff8b7e701ae0a8ebfc54186d30cb6da8 *man/getHyperParameter.Rd
@@ -214,6 +214,7 @@ bcf80417a81e0e95567ae9e7a98a9d59 *src/hide/iterator/zip_iterator.hpp
 670bc336c29e41a6793b271c124301b2 *src/utils/HParSearch.h
 8f24cec642731dde4bb17099841769a7 *src/utils/RZeroIn.h
 69cb3bd105d2e5748b3fcca2a5fe3f4a *tests/testthat.R
+b390f8d03e6816ae031b9efbf1c7fcaa *tests/testthat/save.R
 bdaf1d83a259b8de76b20557b8d56da6 *tests/testthat/test-RcppDataModel.R
 44a33abdfc02367b6e7ca04d9a434026 *tests/testthat/test-believedBroken.R
 ddd10ef218280be20f67c3003842a9cb *tests/testthat/test-conditionalPoisson.R
@@ -238,6 +239,7 @@ adb0b16202b98326337a7e35d61ed175 *tests/testthat/test-outOfSample.R
 1af9902ec0a7a2953d3c168b04fc84ba *tests/testthat/test-parameterizedPriors.R
 7db03f4c7072f9b912c13e54c9c57213 *tests/testthat/test-predict.R
 33e5b70de63a6d253dafd0d2c09ce63f *tests/testthat/test-profileLikelihood.R
+c9741d675757ddd129eb7e93e7eab385 *tests/testthat/test-recenter.R
 c5e6647392529779e0cefeacd677b2c7 *tests/testthat/test-reductions.R
 aa41e4731d65fb66088806fa35614e0f *tests/testthat/test-simulation.R
 0d49df08eec74837d3508f06b6112c66 *tests/testthat/test-smallBernoulli.R
